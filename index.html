@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kísérői tájékoztató | Visitor Information | Besucherinformation</title>
+<style>
+  :root { --navy:#232F61; --textnavy:#242F62; --gold:#E3D496; --cream:#F6F3EA; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:"Trebuchet MS", Verdana, sans-serif; color:var(--textnavy); background:#fff; }
+  header { background:var(--navy); color:#fff; padding:20px 16px 14px; text-align:center; }
+  header .uni { font-size:13px; letter-spacing:2px; text-transform:uppercase; opacity:.85; }
+  header h1 { font-size:22px; margin-top:6px; letter-spacing:1px; }
+  .band { background:var(--gold); color:var(--textnavy); font-weight:bold; padding:9px 16px; font-size:17px; }
+  .langs { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; padding:12px 16px; background:#fff; border-bottom:2px solid var(--gold); }
+  .langs button { border:2px solid var(--navy); background:#fff; color:var(--navy); font-weight:bold;
+                  padding:7px 16px; border-radius:20px; font-size:14px; cursor:pointer; font-family:inherit; }
+  .langs button.act { background:var(--navy); color:#fff; }
+  .langs select { border:2px solid var(--navy); border-radius:20px; padding:7px 10px; color:var(--navy);
+                  font-family:inherit; font-size:13px; background:#fff; }
+  main { max-width:760px; margin:0 auto; padding:16px; }
+  .intro { font-weight:bold; padding:4px 0 14px; line-height:1.45; font-size:15.5px; }
+  section { margin-bottom:14px; border:1px solid #e3e0d2; border-radius:8px; overflow:hidden; }
+  section h2 { background:var(--navy); color:#fff; font-size:15px; padding:8px 12px; }
+  section ul { background:var(--cream); padding:10px 14px 10px 30px; line-height:1.5; font-size:15px; }
+  section li { margin:5px 0; }
+  .thanks { background:var(--gold); text-align:center; font-weight:bold; padding:10px; border-radius:8px;
+            font-size:16px; margin:18px 0; }
+  footer { background:var(--navy); color:#fff; text-align:center; font-size:13px; padding:16px; line-height:1.6; }
+  footer a { color:#fff; }
+</style>
+</head>
+<body>
+<header>
+  <div class="uni">Semmelweis Egyetem</div>
+  <h1 id="t-title"></h1>
+</header>
+<div class="band" id="t-band"></div>
+<div class="langs" id="langbar">
+  <button data-l="hu" onclick="setLang('hu')">Magyar</button>
+  <button data-l="en" onclick="setLang('en')">English</button>
+  <button data-l="de" onclick="setLang('de')">Deutsch</button>
+  <select id="more" onchange="goTranslate(this.value)">
+    <option value="">Más nyelvek / More languages</option>
+    <option value="uk">Українська</option>
+    <option value="ro">Română</option>
+    <option value="sk">Slovenčina</option>
+    <option value="sr">Српски</option>
+    <option value="ru">Русский</option>
+    <option value="tr">Türkçe</option>
+    <option value="ar">العربية</option>
+    <option value="zh-CN">中文</option>
+    <option value="fr">Français</option>
+    <option value="es">Español</option>
+    <option value="it">Italiano</option>
+    <option value="pl">Polski</option>
+  </select>
+</div>
+<main>
+  <p class="intro" id="t-intro"></p>
+  <div id="t-sections"></div>
+  <div class="thanks" id="t-thanks"></div>
+</main>
+<footer>
+  <strong>Semmelweis Egyetem</strong> · <span id="t-clinic"></span><br>
+  <a href="https://semmelweis.hu">semmelweis.hu</a>
+</footer>
+
+<script>
+const D = {
+hu: {
+  title:"KÍSÉRŐI TÁJÉKOZTATÓ", band:"Tisztelt Hozzátartozó!", clinic:"Sürgősségi Orvostani Klinika",
+  intro:"Köszönjük, hogy elkísérte betegünket és segíti gyógyulását. A sürgősségi egység nem klasszikus fekvőbeteg-osztály, hanem nyitott, nagy kockázatú ellátói tér, ezért számunkra elsődleges a betegek, a kísérők és az ellátók biztonsága. Kérjük az alábbi, nemzetközi standardokon alapuló szabályok betartását.",
+  thanks:"Köszönjük együttműködését!",
+  sections:[
+   ["Belépés és azonosítás",[
+    "Belépéskor kérjük személyazonosságának igazolását. A kapott látogatói kártyát viselje mindvégig, amíg a Klinikán tartózkodik.",
+    "Kártyát csak 16 év feletti, fertőző betegségben aktuálisan nem szenvedő kísérő kaphat.",
+    "A kártya kizárólag a Sürgősségi Orvostani Klinika területén való tartózkodásra jogosít."]],
+   ["Tartózkodás a betegtérben",[
+    "Egy beteg mellett egyszerre csak egy kísérő tartózkodjon.",
+    "Kérjük, mindig a beteg mellett maradjon, más betegek és ellátási területek felkeresése nem megengedett.",
+    "Mosdók a folyosó két végén találhatók: a mentőbejárathoz közelebbi a női, a távolabbi a férfi, a kettő között az akadálymentesített.",
+    "Kérjük, vigyázzon saját és betegünk értékeire."]],
+   ["Higiéné és védőeszközök",[
+    "Belépéskor és távozáskor mosson kezet vagy fertőtlenítse a kezét.",
+    "Ha az ellátók indokoltnak látják, kérjük, használja a biztosított személyi védőeszközöket (maszk, kesztyű, köpeny)."]],
+   ["Amit kérünk mellőzni",[
+    "A Klinika területén ne fogyasszon ételt vagy italt és ne dohányozzon.",
+    "A személyiségi jogok védelme érdekében kép-, hang- és videófelvétel nem készíthető."]],
+   ["Zéró tolerancia",[
+    "Minden esetben kövesse az ellátó személyzet kéréseit és utasításait. Az optimális ellátási környezetet minden betegünknek és kísérőjének garantálnunk kell. A zéró tolerancia elvét alkalmazzuk minden kísérővel szemben, aki viselkedésével veszélyezteti a betegellátást, az ellátókat, a többi beteget vagy a kísérőket. Ilyen esetben a kísérőt kivezettetjük."]],
+   ["Amiben segíthet",[
+    "Osszon meg minden lényeges információt a beteg állapotáról.",
+    "Jelezze, ha tudomása szerint a beteg cselekvőképessége korlátozott.",
+    "A beteg igényeinek kielégítésébe velünk egyeztetve kapcsolódjon be.",
+    "Ha problémát észlel, azonnal szóljon az ellátóknak.",
+    "Kérdésével, kérésével forduljon bizalommal diszpécsereinkhez és a beteget ellátó személyzethez."]],
+   ["Megértését kérjük",[
+    "Ha más beteg ellátása vagy veszélyeztető helyzet úgy kívánja, a személyzet kérheti, hogy átmenetileg hagyja el a Klinika területét.",
+    "Előfordulhat, hogy egy-egy beteg mellett nyelvi nehézség, mentális állapot vagy életvégi helyzet miatt tartósan több kísérő tartózkodik."]]
+  ]
+},
+en: {
+  title:"VISITOR INFORMATION", band:"Dear Visitor,", clinic:"Department of Emergency Medicine",
+  intro:"Thank you for accompanying your patient and supporting their recovery. The emergency department is an open, high-risk care area, so the safety of patients, companions and staff comes first. Please observe the following rules, based on international standards.",
+  thanks:"Thank you for your cooperation!",
+  sections:[
+   ["Entry and identification",[
+    "On entry, please present photo identification. Wear the visitor card you receive at all times while you are on the premises.",
+    "A card may only be issued to companions over the age of 16 who are currently free of infectious disease.",
+    "The card entitles you to stay only within the Department of Emergency Medicine."]],
+   ["Staying with the patient",[
+    "Only one companion should stay with a patient at a time.",
+    "Please remain at your patient's side at all times. Approaching other patients or care areas is not permitted.",
+    "Restrooms are located at both ends of the corridor: the one closer to the ambulance entrance is for women, the farther one for men, and the accessible restroom is between them.",
+    "Please take care of your own and your patient's valuables."]],
+   ["Hygiene and protective equipment",[
+    "Wash or sanitise your hands when entering and leaving.",
+    "If the staff consider it necessary, please use the personal protective equipment provided (mask, gloves, gown)."]],
+   ["Please avoid",[
+    "Please do not eat, drink or smoke on the premises.",
+    "To protect personal rights, no photo, audio or video recordings may be made at the Clinic."]],
+   ["Zero tolerance",[
+    "Please follow the requests and instructions of the care staff at all times, as we must guarantee an optimal care environment for every patient and companion. We apply zero tolerance to any companion whose behaviour endangers patient care, the staff, other patients or their companions. In such cases the companion will be escorted out."]],
+   ["How you can help",[
+    "Share all relevant information about your patient's condition.",
+    "Tell us if you are aware that the patient's decision-making capacity is limited.",
+    "Help with your patient's needs only in agreement with us.",
+    "If you notice a problem, alert the staff immediately.",
+    "With any question or request, feel free to turn to our dispatchers and the staff caring for your patient."]],
+   ["We ask for your understanding",[
+    "If the care of another patient or a dangerous situation requires it, the staff may ask you to leave the Clinic temporarily.",
+    "Around some patients, several companions may stay for longer periods due to language difficulties, mental state or end-of-life situations."]]
+  ]
+},
+de: {
+  title:"BESUCHERINFORMATION", band:"Sehr geehrte Begleitperson!", clinic:"Klinik für Notfallmedizin",
+  intro:"Vielen Dank, dass Sie Ihre Angehörigen begleiten und ihre Genesung unterstützen. Die Notaufnahme ist keine klassische Bettenstation, sondern ein offener Versorgungsbereich mit erhöhtem Risiko, daher steht die Sicherheit der Patienten, der Begleitpersonen und des Personals für uns an erster Stelle. Bitte beachten Sie die folgenden, auf internationalen Standards beruhenden Regeln.",
+  thanks:"Vielen Dank für Ihre Kooperation!",
+  sections:[
+   ["Eintritt und Identifikation",[
+    "Bitte weisen Sie sich beim Eintritt aus. Tragen Sie die erhaltene Besucherkarte während des gesamten Aufenthalts in der Klinik.",
+    "Eine Karte erhalten nur Begleitpersonen über 16 Jahre, die aktuell nicht an einer Infektionskrankheit leiden.",
+    "Die Karte berechtigt ausschließlich zum Aufenthalt in der Klinik für Notfallmedizin."]],
+   ["Aufenthalt beim Patienten",[
+    "Bei einem Patienten soll sich jeweils nur eine Begleitperson aufhalten.",
+    "Bitte bleiben Sie stets bei Ihrem Patienten. Das Aufsuchen anderer Patienten oder Versorgungsbereiche ist nicht gestattet.",
+    "Die Toiletten befinden sich an beiden Enden des Flurs: näher am Rettungseingang die Damentoilette, weiter entfernt die Herrentoilette, dazwischen die barrierefreie Toilette.",
+    "Bitte achten Sie auf Ihre eigenen Wertsachen und die des Patienten."]],
+   ["Hygiene und Schutzausrüstung",[
+    "Waschen oder desinfizieren Sie Ihre Hände beim Kommen und Gehen.",
+    "Wenn das Personal es für notwendig hält, verwenden Sie bitte die bereitgestellte persönliche Schutzausrüstung (Maske, Handschuhe, Kittel)."]],
+   ["Bitte unterlassen Sie",[
+    "Bitte essen, trinken und rauchen Sie nicht auf dem Klinikgelände.",
+    "Zum Schutz der Persönlichkeitsrechte dürfen keine Foto-, Ton- oder Videoaufnahmen gemacht werden."]],
+   ["Null Toleranz",[
+    "Folgen Sie bitte jederzeit den Bitten und Anweisungen des Personals, denn eine optimale Versorgungsumgebung müssen wir allen Patienten und Begleitpersonen garantieren. Gegenüber Begleitpersonen, deren Verhalten die Patientenversorgung, das Personal, andere Patienten oder deren Begleiter gefährdet, gilt Null Toleranz. In diesem Fall wird die Begleitperson hinausbegleitet."]],
+   ["Wie Sie helfen können",[
+    "Teilen Sie uns alle wesentlichen Informationen über den Zustand des Patienten mit.",
+    "Sagen Sie uns, wenn die Entscheidungsfähigkeit des Patienten Ihres Wissens eingeschränkt ist.",
+    "Beteiligen Sie sich an der Versorgung des Patienten nur in Absprache mit uns.",
+    "Wenn Sie ein Problem bemerken, informieren Sie sofort das Personal.",
+    "Mit Fragen und Anliegen wenden Sie sich bitte vertrauensvoll an unsere Dispatcher und das behandelnde Personal."]],
+   ["Wir bitten um Ihr Verständnis",[
+    "Wenn die Versorgung eines anderen Patienten oder eine Gefahrensituation es erfordert, kann das Personal Sie bitten, die Klinik vorübergehend zu verlassen.",
+    "Bei manchen Patienten können wegen sprachlicher Schwierigkeiten, mentaler Verfassung oder Situationen am Lebensende zeitweise mehrere Begleitpersonen anwesend sein."]]
+  ]
+}
+};
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function setLang(l){
+  const t = D[l];
+  document.documentElement.lang = l;
+  document.getElementById('t-title').textContent = t.title;
+  document.getElementById('t-band').textContent = t.band;
+  document.getElementById('t-intro').textContent = t.intro;
+  document.getElementById('t-thanks').textContent = t.thanks;
+  document.getElementById('t-clinic').textContent = t.clinic;
+  document.getElementById('t-sections').innerHTML = t.sections.map(([h, items]) =>
+    '<section><h2>'+esc(h)+'</h2><ul>'+items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul></section>').join('');
+  document.querySelectorAll('#langbar button').forEach(b=>b.classList.toggle('act', b.dataset.l===l));
+  try { history.replaceState(null,'','#'+l); } catch(e) {}
+}
+function goTranslate(code){
+  if(!code) return;
+  const u = location.href.split('#')[0];
+  window.open('https://translate.google.com/translate?sl=hu&tl='+code+'&u='+encodeURIComponent(u), '_blank');
+  document.getElementById('more').value='';
+}
+(function(){
+  const h = (location.hash||'').replace('#','');
+  if (D[h]) return setLang(h);
+  const n = (navigator.language||'hu').slice(0,2).toLowerCase();
+  setLang(D[n] ? n : (n==='hu' ? 'hu' : 'en'));
+  if (n==='hu') setLang('hu');
+})();
+</script>
+</body>
+</html>
