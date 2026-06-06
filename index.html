@@ -185,9 +185,13 @@ function setLang(l){
 }
 function goTranslate(code){
   if(!code) return;
-  const u = location.href.split('#')[0];
-  window.open('https://translate.google.com/translate?sl=hu&tl='+code+'&u='+encodeURIComponent(u), '_blank');
   document.getElementById('more').value='';
+  if(location.protocol.indexOf('http')!==0){
+    window.open('https://translate.google.com/translate?sl=hu&tl='+code+'&u='+encodeURIComponent(location.href.split('#')[0]),'_blank');
+    return;
+  }
+  var host = location.host.replace(/-/g,'--').replace(/\./g,'-') + '.translate.goog';
+  location.href = 'https://' + host + location.pathname + '?_x_tr_sl=hu&_x_tr_tl=' + code + '&_x_tr_hl=' + code;
 }
 (function(){
   const h = (location.hash||'').replace('#','');
